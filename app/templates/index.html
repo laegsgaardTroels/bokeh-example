@@ -1,0 +1,12 @@
+{# 
+References:
+https://jinja.palletsprojects.com/en/3.0.x/templates/#super-blocks 
+https://docs.bokeh.org/en/latest/docs/user_guide/embed.html#standard-template
+#}
+{% extends base %}
+
+{% block title %}Bokeh Example{% endblock %}
+
+{% block postamble %}
+    <link rel="stylesheet" href="app/static/css/style_1.0.css">
+{% endblock %}

@@ -19,6 +19,8 @@ class Model:
             'addresse': [],
             'x': [],
             'y': [],
+            'lat': [],
+            'lon': [],
         })
 
     @property
@@ -32,14 +34,15 @@ class Model:
             'https://api.dataforsyningen.dk/adresser'
             f'?postnr={self.zipcode["nr"]}'
         ).json()
-        x, y = mercator(
-            lat=np.array([p['adgangsadresse']['adgangspunkt']['koordinater'][1] for p in payload]),
-            lon=np.array([p['adgangsadresse']['adgangspunkt']['koordinater'][0] for p in payload]),
-        )
+        lat = np.array([p['adgangsadresse']['adgangspunkt']['koordinater'][1] for p in payload])
+        lon = np.array([p['adgangsadresse']['adgangspunkt']['koordinater'][0] for p in payload])
+        x, y = mercator(lat, lon)
         self.addresses.data = {
             'addresse': [p['adressebetegnelse'] for p in payload],
             'x': x,
-            'y': y
+            'y': y,
+            'lat': lat,
+            'lon': lon,
         }
 
     @property

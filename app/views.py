@@ -25,19 +25,30 @@ class WorldMap(View):
             zoom_on_axis=False
         )
         self.plot = plotting.figure(
+            title='Real Estate Valuation',
             x_range=(x_min, x_max),
             y_range=(y_min, y_max),
             x_axis_type="mercator",
             y_axis_type="mercator",
+            x_axis_label='Longitude [deg]',
+            y_axis_label='Latitude [deg]',
             output_backend="webgl",
             tools=[
                 pan_tool,
                 bm.BoxSelectTool(),
                 wheel_zoom_tool,
                 bm.ResetTool(),
+                bm.HoverTool(
+                    tooltips = [
+                        ("Address", "@addresse"),
+                        ("Latitude", "@lat"),
+                        ("Longitude", "@lon"),
+                    ]
+                ),
             ],
             active_drag=pan_tool,
             active_scroll=wheel_zoom_tool,
+            active_inspect=[],
         )
         self.plot.add_tile(
             tile_providers.get_provider(
@@ -49,7 +60,7 @@ class WorldMap(View):
             y='y',
             size=5,
             fill_color="blue",
-            fill_alpha=0.8,
+            fill_alpha=0.6,
             source=self.model.addresses,
         )
         self.plot.toolbar.logo = None
